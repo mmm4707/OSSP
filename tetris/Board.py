@@ -1,4 +1,5 @@
 import pygame, sys, datetime, time
+import pygame_menu
 from pygame.locals import *
 from Piece import *
 
@@ -21,12 +22,35 @@ class Board:
                      'bottom':3, 'overlap':4}
 
     def __init__(self, screen):
+        '''
         self.screen = screen
         self.width = 10
         self.height = 20
         self.block_size = 25
         self.init_board()
         self.generate_piece()
+        '''
+
+        self.width = 5  # 맵의 좌에서 우로 사이즈
+        self.height = 15  # 맵 위에서 아래로 사이즈
+        self.block_size = int(25*7/5)  # 바꾸면 맵 블럭크기 변경
+        self.status_size = 5
+        mini_width = 5  # 맵의 좌에서 우로 사이즈
+        mini_height = 15  # 맵 위에서 아래로 사이즈
+        mini_block_size = int(25*7/5)  # 바꾸면 맵 블럭크기 변경
+        mini_status_size = 5  # 상태 바 사이즈 (블럭의 개수 기준으로 )
+        mini_display_width = (mini_width + mini_status_size) * mini_block_size
+        self.display_width = mini_display_width
+        self.display_height = self.height * self.block_size
+        self.screen = pygame.display.set_mode((self.display_width, self.display_height), RESIZABLE)
+
+        self.init_board()  # 보드 생성 메소드 실행
+        self.generate_piece()  # 블럭 생성 메소드 실행
+        '''
+        self.start_status_bar_y = 0
+        self.status_width = self.block_size * self.status_size
+        self.font_size_small_in = 14
+        '''
 
     def init_board(self):
         self.board = []
@@ -40,12 +64,12 @@ class Board:
     def generate_piece(self):
         self.piece = Piece()
         self.next_piece = Piece()
-        self.piece_x, self.piece_y = 3,0
+        self.piece_x, self.piece_y = 0, -2
 
     def nextpiece(self):
         self.piece = self.next_piece
         self.next_piece = Piece()
-        self.piece_x, self.piece_y = 3, 0
+        self.piece_x, self.piece_y = 0, -2
 
     def absorb_piece(self):
         for y, row in enumerate(self.piece):

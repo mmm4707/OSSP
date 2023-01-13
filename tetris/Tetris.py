@@ -98,6 +98,19 @@ class Tetris:
                     self.handle_key(event.key)
                 elif event.type == pygame.USEREVENT:
                     self.board.drop_piece()
+
+                elif event.type == VIDEORESIZE:
+                    info = pygame.display.Info()
+                    resize = event.h / self.board.display_height
+
+                    if event.w != self.board.display_width:
+                        pygame.display.set_mode((self.board.display_width, self.board.display_height), RESIZABLE)
+
+                    if resize != 1:
+                        self.vdresize(resize, event.h)
+                        if info.current_w == (1855):
+                            pygame.display.set_mode((info.current_w, info.current_h), RESIZABLE).fill(MAIN_VIOLET)
+
             # self.screen.fill(BLACK)
             self.board.draw()
             pygame.display.update()
