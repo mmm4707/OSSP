@@ -1,6 +1,8 @@
 import pygame, sys, time
 from pygame.locals import *
 from Board import *
+from run import *
+
 
 #               R    G    B
 WHITE       = (255, 255, 255)
@@ -14,6 +16,7 @@ BLUE        = (  0,   0, 155)
 LIGHTBLUE   = ( 20,  20, 175)
 YELLOW      = (155, 155,   0)
 LIGHTYELLOW = (175, 175,  20)
+
 
 class Tetris:
 
@@ -115,6 +118,7 @@ class Tetris:
             self.board.draw()
             pygame.display.update()
             self.clock.tick(30)
+
 
 if __name__ == "__main__":
     Tetris().run()

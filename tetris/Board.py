@@ -2,6 +2,7 @@ import pygame, sys, datetime, time
 import pygame_menu
 from pygame.locals import *
 from Piece import *
+from run import *
 
 #               R    G    B
 WHITE       = (255, 255, 255)
@@ -18,34 +19,33 @@ LIGHTYELLOW = (175, 175,  20)
 
 
 class Board:
-    COLLIDE_ERROR = {'no_error' : 0, 'right_wall':1, 'left_wall':2,
-                     'bottom':3, 'overlap':4}
+    COLLIDE_ERROR = {'no_error' : 0, 'right_wall':1, 'left_wall':2,'bottom':3, 'overlap':4}
 
     def __init__(self, screen):
-        '''
-        self.screen = screen
-        self.width = 10
-        self.height = 20
-        self.block_size = 25
-        self.init_board()
-        self.generate_piece()
-        '''
-
-        self.width = 5  # 맵의 좌에서 우로 사이즈
-        self.height = 15  # 맵 위에서 아래로 사이즈
-        self.block_size = int(25*7/5)  # 바꾸면 맵 블럭크기 변경
-        self.status_size = 5
-        mini_width = 5  # 맵의 좌에서 우로 사이즈
-        mini_height = 15  # 맵 위에서 아래로 사이즈
-        mini_block_size = int(25*7/5)  # 바꾸면 맵 블럭크기 변경
-        mini_status_size = 5  # 상태 바 사이즈 (블럭의 개수 기준으로 )
-        mini_display_width = (mini_width + mini_status_size) * mini_block_size
-        self.display_width = mini_display_width
-        self.display_height = self.height * self.block_size
-        self.screen = pygame.display.set_mode((self.display_width, self.display_height), RESIZABLE)
-
-        self.init_board()  # 보드 생성 메소드 실행
-        self.generate_piece()  # 블럭 생성 메소드 실행
+        if SH == False:
+            self.screen = screen
+            self.width = 10
+            self.height = 20
+            self.block_size = 25
+            self.init_board()
+            self.generate_piece()
+        
+        else:
+            self.width = 5  # 맵의 좌에서 우로 사이즈
+            self.height = 15  # 맵 위에서 아래로 사이즈
+            self.block_size = int(25*7/5)  # 바꾸면 맵 블럭크기 변경
+            self.status_size = 5
+            mini_width = 5  # 맵의 좌에서 우로 사이즈
+            mini_height = 15  # 맵 위에서 아래로 사이즈
+            mini_block_size = int(25*7/5)  # 바꾸면 맵 블럭크기 변경
+            mini_status_size = 5  # 상태 바 사이즈 (블럭의 개수 기준으로 )
+            mini_display_width = (mini_width + mini_status_size) * mini_block_size
+            self.display_width = mini_display_width
+            self.display_height = self.height * self.block_size
+            self.screen = pygame.display.set_mode((self.display_width, self.display_height), RESIZABLE)
+            self.init_board()  # 보드 생성 메소드 실행
+            self.generate_piece()  # 블럭 생성 메소드 실행
+        
         '''
         self.start_status_bar_y = 0
         self.status_width = self.block_size * self.status_size
@@ -64,12 +64,17 @@ class Board:
     def generate_piece(self):
         self.piece = Piece()
         self.next_piece = Piece()
-        self.piece_x, self.piece_y = 0, -2
-
+        if SH == False:
+            self.piece_x, self.piece_y = 3, 0
+        else:
+            self.piece_x, self.piece_y = 0, -2
     def nextpiece(self):
         self.piece = self.next_piece
         self.next_piece = Piece()
-        self.piece_x, self.piece_y = 0, -2
+        if SH == False:
+            self.piece_x, self.piece_y = 3, 0
+        else:
+            self.piece_x, self.piece_y = 0, -2
 
     def absorb_piece(self):
         for y, row in enumerate(self.piece):
@@ -224,9 +229,9 @@ class Board:
             for y in range(self.height):
                 x_pix, y_pix = self.pos_to_pixel(x, y)
                 pygame.draw.rect(self.screen, (26,26,26),
-                 (x_pix, y_pix, self.block_size, self.block_size))
+                    (x_pix, y_pix, self.block_size, self.block_size))
                 pygame.draw.rect(self.screen, BLACK,
-                 (x_pix, y_pix, self.block_size, self.block_size),1)
+                    (x_pix, y_pix, self.block_size, self.block_size),1)
         self.draw_blocks(self.piece, dx=self.piece_x, dy=self.piece_y)
         self.draw_blocks(self.board)
         pygame.draw.rect(self.screen, WHITE, Rect(250, 0, 350, 450))
@@ -275,11 +280,11 @@ class Board:
 
     def GameOver(self):
         fontObj = pygame.font.Font('assets/Roboto-Bold.ttf', 32)
-        textSurfaceObj = fontObj.render('Game over', True, GREEN)
+        textSurfaceObj = fontObj.render('Game over', True, RED)
         textRectObj = textSurfaceObj.get_rect()
         textRectObj.center = (175, 185)
         fontObj2 = pygame.font.Font('assets/Roboto-Bold.ttf', 16)
-        textSurfaceObj2 = fontObj2.render('Press a key to continue', True, GREEN)
+        textSurfaceObj2 = fontObj2.render('Press a key to continue', True, RED)
         textRectObj2 = textSurfaceObj2.get_rect()
         textRectObj2.center = (175, 235)
         self.screen.blit(textSurfaceObj, textRectObj)
@@ -296,14 +301,14 @@ class Board:
 
     def newGame(self):
         fontObj = pygame.font.Font('assets/Roboto-Bold.ttf', 32)
-        textSurfaceObj = fontObj.render('Tetris', True, GREEN)
+        textSurfaceObj = fontObj.render('Tetris', True, RED)
         textRectObj = textSurfaceObj.get_rect()
         textRectObj.center = (175, 185)
         fontObj2 = pygame.font.Font('assets/Roboto-Bold.ttf', 16)
-        textSurfaceObj2 = fontObj2.render('Press a key to continue', True, GREEN)
+        textSurfaceObj2 = fontObj2.render('Press a key to continue', True, RED)
         textRectObj2 = textSurfaceObj2.get_rect()
         textRectObj2.center = (175, 235)
-        self.screen.fill(BLACK)
+        self.screen.fill(WHITE)
         self.screen.blit(textSurfaceObj, textRectObj)
         self.screen.blit(textSurfaceObj2, textRectObj2)
         pygame.display.update()

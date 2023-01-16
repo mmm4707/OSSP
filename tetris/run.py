@@ -3,18 +3,19 @@ import pygame_menu
 from Tetris import *
 import time
 
-class run:
 
- pygame.init()
+class run:
+    pygame.init()
 
 white = (255, 255, 255)
-
+SH = False
 titleImg = pygame.image.load('assets/images/icon.png')
 startImg = pygame.image.load('assets/images/start.png')
 quitImg = pygame.image.load('assets/images/exit.png')
 clickStartImg = pygame.image.load('assets/images/start2.png')
 clickQuitImg = pygame.image.load('assets/images/exit2.png')
-
+miniImg = pygame.image.load('assets/images/mini.png')
+clickminiImg = pygame.image.load('assets/images/mini2.png')
 
 display_width = 350
 display_height = 450
@@ -53,15 +54,20 @@ def mainmenu():
 
         gameDisplay.fill(white)
         
-        titletext = gameDisplay.blit(titleImg, (105,50))
-        startButton = Button(startImg,120,150,96,96,clickStartImg,120,150,start)
+        titletext = gameDisplay.blit(titleImg, (105,20))
+        startButton = Button(startImg,120,100,96,96,clickStartImg,120,100,start)
+        miniButton = Button(miniImg,120,200,96,96,clickminiImg,120,200,minigame)
         quitButton = Button(quitImg,120,350,96,96,clickQuitImg,120,350,quitgame)
         pygame.display.update()
         clock.tick(15)
         
 def start():
     Tetris().run()
+    SH = False
 
+def minigame():
+    Tetris().run()
+    SH = True
 
 
 mainmenu()
