@@ -72,15 +72,15 @@ class Tetris:
         pygame.time.set_timer(pygame.USEREVENT, 500)
         start_sound = pygame.mixer.Sound('assets/sounds/Start.wav')
         start_sound.play()
-        bgm = pygame.mixer.music.load('assets/sounds/bgm.mp3')
+#        bgm = pygame.mixer.music.load('assets/sounds/bgm.mp3')
         while True:
             if self.check_reset:
                 self.board.newGame()
                 self.check_reset = False
-                pygame.mixer.music.play(-1, 0.0)
+#                pygame.mixer.music.play(-1, 0.0)
             if self.board.game_over():
                 self.screen.fill(BLACK)
-                pygame.mixer.music.stop()
+#                pygame.mixer.music.stop()
                 self.board.GameOver()
                 self.HighScore()
                 self.check_reset = True
