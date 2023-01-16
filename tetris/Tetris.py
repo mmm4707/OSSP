@@ -1,8 +1,6 @@
 import pygame, sys, time
 from pygame.locals import *
 from Board import *
-
-
 #               R    G    B
 WHITE       = (255, 255, 255)
 GRAY        = (185, 185, 185)

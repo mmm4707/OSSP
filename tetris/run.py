@@ -2,13 +2,12 @@ import pygame
 import pygame_menu
 from Tetris import *
 import time
-
+import check
 
 class run:
     pygame.init()
 
 white = (255, 255, 255)
-SH = False
 titleImg = pygame.image.load('assets/images/icon.png')
 startImg = pygame.image.load('assets/images/start.png')
 quitImg = pygame.image.load('assets/images/exit.png')
@@ -62,9 +61,12 @@ def mainmenu():
         clock.tick(15)
         
 def start():
+    SH = False
     Tetris().run()
 
+
 def minigame():
+    SH = True
     Tetris().run()
 
 

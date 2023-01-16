@@ -24,42 +24,9 @@
 - 한 줄 가득 블럭이 쌓이면 그 줄이 지워집니다.  
 
 ## 추가한 기능  
-- 
+- 미니모드 구현
+- 메뉴 추가
+- 그래픽 업데이트
 
 ## 사용한 오픈소스  
 - https://github.com/hbseo/OSD_game
-
-# Imports
-import sys
-import pygame
-
-# Configuration
-pygame.init()
-fps = 60
-fpsClock = pygame.time.Clock()
-width, height = 640, 480
-screen = pygame.display.set_mode((width, height))
-
-font = pygame.font.SysFont('Arial', 40)
-
-objects = []
-
-class Button():
-    def __init__(self, x, y, width, height, buttonText='Button', onclickFunction=None, onePress=False):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.onclickFunction = onclickFunction
-        self.onePress = onePress
-        self.alreadyPressed = False
-
-        self.fillColors = {
-            'normal': '#ffffff',
-            'hover': '#666666',
-            'pressed': '#333333',
-        }
-             self.buttonSurface = pygame.Surface((self.width, self.height))
-        self.buttonRect = pygame.Rect(self.x, self.y, self.width, self.height)
-
-        self.buttonSurf = font.render(buttonText, True, (20, 20, 20))
