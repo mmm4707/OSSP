@@ -1,7 +1,6 @@
 import pygame, sys, time
 from pygame.locals import *
 from Board import *
-from run import *
 
 
 #               R    G    B

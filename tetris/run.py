@@ -63,11 +63,10 @@ def mainmenu():
         
 def start():
     Tetris().run()
-    SH = False
 
 def minigame():
     Tetris().run()
-    SH = True
+
 
 
 mainmenu()
