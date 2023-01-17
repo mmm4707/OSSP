@@ -2,8 +2,6 @@ import pygame
 import pygame_menu
 from Tetris import *
 import time
-import check
-
 class run:
     pygame.init()
 
@@ -61,12 +59,10 @@ def mainmenu():
         clock.tick(15)
         
 def start():
-    SH = False
     Tetris().run()
 
 
 def minigame():
-    SH = True
     Tetris().run()
 
 

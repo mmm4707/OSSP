@@ -2,7 +2,7 @@ import pygame, sys, datetime, time
 import pygame_menu
 from pygame.locals import *
 from Piece import *
-from check import SH
+
 #               R    G    B
 WHITE       = (255, 255, 255)
 GRAY        = (185, 185, 185)
@@ -15,21 +15,23 @@ BLUE        = (  0,   0, 155)
 LIGHTBLUE   = ( 20,  20, 175)
 YELLOW      = (155, 155,   0)
 LIGHTYELLOW = (175, 175,  20)
-
+global sh
+sh = False
 
 class Board:
     COLLIDE_ERROR = {'no_error' : 0, 'right_wall':1, 'left_wall':2,'bottom':3, 'overlap':4}
 
-    def __init__(self, screen):
-        if  SH == False: 
-            self.screen = screen
+    def __init__(self, mode):
+        if(mode == 'basic'):
+            sh = False
+            self.mode = mode
             self.width = 10
             self.height = 20
             self.block_size = 25
             self.init_board()
             self.generate_piece()
         else:
-  
+            sh = True
             self.width = 5  # 맵의 좌에서 우로 사이즈
             self.height = 15  # 맵 위에서 아래로 사이즈
             self.block_size = int(25*7/5)  # 바꾸면 맵 블럭크기 변경
@@ -42,9 +44,8 @@ class Board:
             self.display_width = mini_display_width
             self.display_height = self.height * self.block_size
             self.screen = pygame.display.set_mode((self.display_width, self.display_height), RESIZABLE)
-
-        self.init_board()  # 보드 생성 메소드 실행
-        self.generate_piece()  # 블럭 생성 메소드 실행
+            self.init_board()  # 보드 생성 메소드 실행
+            self.generate_piece()  # 블럭 생성 메소드 실행
         '''
         self.start_status_bar_y = 0
         self.status_width = self.block_size * self.status_size
@@ -63,7 +64,7 @@ class Board:
     def generate_piece(self):
         self.piece = Piece()
         self.next_piece = Piece()
-        if SH == False:
+        if(sh == False):
             self.piece_x, self.piece_y = 3, 0
         else:
             self.piece_x, self.piece_y = 0, -2
@@ -71,7 +72,7 @@ class Board:
     def nextpiece(self):
         self.piece = self.next_piece
         self.next_piece = Piece()
-        if SH == False:
+        if(sh == False):
             self.piece_x, self.piece_y = 3, 0
         else:
             self.piece_x, self.piece_y = 0, -2

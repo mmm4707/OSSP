@@ -1,3 +1,0 @@
-
-global SH
-SH = False
