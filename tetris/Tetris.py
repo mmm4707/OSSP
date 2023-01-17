@@ -30,16 +30,28 @@ class Tetris:
     def handle_key(self, event_key):
         if event_key == K_DOWN or event_key == K_s:
             self.board.drop_piece()
+            self.mini_board.drop_piece()
+            
         elif event_key == K_LEFT or event_key == K_a:
             self.board.move_piece(dx=-1, dy=0)
+            self.mini_board.move_piece(dx=-1, dy=0)
+
         elif event_key == K_RIGHT or event_key == K_d:
             self.board.move_piece(dx=1, dy=0)
+            self.mini_board.move_piece(dx=1, dy=0)
+
         elif event_key == K_UP or event_key == K_w:
             self.board.rotate_piece()
+            self.mini_board.rotate_piece()
+            
         elif event_key == K_SPACE:
             self.board.full_drop_piece()
+            self.mini_board.full_drop_piece()
+
         elif event_key == K_q:
             self.board.ultimate()
+            self.mini_board.ultimate()
+            
         elif event_key == K_m:
             self.music_on_off = not self.music_on_off
             if self.music_on_off:
