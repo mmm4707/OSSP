@@ -17,44 +17,51 @@ YELLOW      = (155, 155,   0)
 LIGHTYELLOW = (175, 175,  20)
 
 
-class Board:
+class mini_Board:
     #충돌에러
     COLLIDE_ERROR = {'no_error' : 0, 'right_wall':1, 'left_wall':2,
                      'bottom':3, 'overlap':4}
 
     def __init__(self, screen):
-        self.screen = screen
-        self.start = time.time()
-        self.width = 10  #맵의 좌에서 우로 사이즈
-        self.height = 20 #맵 위에서 아래로 사이즈
-        self.block_size = 25  #바꾸면 맵 블럭크기 변경
-        self.init_board() # 보드 생성 메소드 실행
-        self.generate_piece() # 블럭 생성 메소드 실행
+        self.width = 5  # 맵의 좌에서 우로 사이즈
+        self.height = 15  # 맵 위에서 아래로 사이즈
+        self.block_size = int(25*7/5)  # 바꾸면 맵 블럭크기 변경
+        self.status_size = 5
+        mini_width = 5  # 맵의 좌에서 우로 사이즈
+        mini_height = 15  # 맵 위에서 아래로 사이즈
+        mini_block_size = int(25*7/5)  # 바꾸면 맵 블럭크기 변경
+        mini_status_size = 5  # 상태 바 사이즈 (블럭의 개수 기준으로 )
+        mini_display_width = (mini_width + mini_status_size) * mini_block_size
+        self.display_width = mini_display_width
+        self.display_height = self.height * self.block_size
+        self.screen = pygame.display.set_mode((self.display_width, self.display_height), RESIZABLE)
+        self.init_mini_Board()  # 보드 생성 메소드 실행
+        self.generate_piece()  # 블럭 생성 메소드 실행
 
-    def init_board(self):
-        self.board = []
+    def init_mini_Board(self):
+        self.mini_Board = []
         self.score = 0 #시작 점수
         self.level = 1 #시작 level
         self.goal = 5  #level up 도달 목표
         self.skill = 0 #skill 퍼센트
         for _ in range(self.height):
-            self.board.append([0]*self.width)
+            self.mini_Board.append([0]*self.width)
 
     def generate_piece(self):
         self.piece = Piece()
         self.next_piece = Piece()
-        self.piece_x, self.piece_y = 3, 0
+        self.piece_x, self.piece_y = 0, -2
 
     def nextpiece(self):  #다음에 나올 블럭 그려주
         self.piece = self.next_piece
         self.next_piece = Piece()
-        self.piece_x, self.piece_y = 3, 0
+        self.piece_x, self.piece_y = 0, -2
 
     def absorb_piece(self):
         for y, row in enumerate(self.piece):
             for x, block in enumerate(row):
                 if block:
-                    self.board[y+self.piece_y][x+self.piece_x] = block
+                    self.mini_Board[y+self.piece_y][x+self.piece_x] = block
         self.nextpiece()
         self.score += self.level
 
@@ -64,32 +71,32 @@ class Board:
 
 
 #충돌 관련
-    def block_collide_with_board(self, x, y):
+    def block_collide_with_mini_Board(self, x, y):
         #왼쪽 끝점 기준 (0,0)
         if x < 0:               # 왼쪽 벽
-            return Board.COLLIDE_ERROR['left_wall']
+            return mini_Board.COLLIDE_ERROR['left_wall']
         elif x >= self.width:   #가로 길이 넘어가면
-            return Board.COLLIDE_ERROR['right_wall']
+            return mini_Board.COLLIDE_ERROR['right_wall']
         elif y >= self.height:  #세로 기리 넘어가면
-            return Board.COLLIDE_ERROR['bottom']
-        elif self.board[y][x]: #블럭이 다 쌓이면 ??
-            return Board.COLLIDE_ERROR['overlap']
-        return Board.COLLIDE_ERROR['no_error']
+            return mini_Board.COLLIDE_ERROR['bottom']
+        elif self.mini_Board[y][x]: #블럭이 다 쌓이면 ??
+            return mini_Board.COLLIDE_ERROR['overlap']
+        return mini_Board.COLLIDE_ERROR['no_error']
 
-    def collide_with_board(self, dx, dy):
+    def collide_with_mini_Board(self, dx, dy):
         for y, row in enumerate(self.piece):
             for x, block in enumerate(row):
                 if block:
-                    collide = self.block_collide_with_board(x=x+dx, y=y+dy)
+                    collide = self.block_collide_with_mini_Board(x=x+dx, y=y+dy)
                     if collide:
                         return collide
-        return Board.COLLIDE_ERROR['no_error']
+        return mini_Board.COLLIDE_ERROR['no_error']
 
 #블럭이 움직일 수 있는 경우 판단
     def can_move_piece(self, dx, dy):
         _dx = self.piece_x + dx
         _dy = self.piece_y + dy
-        if self.collide_with_board(dx = _dx, dy = _dy):
+        if self.collide_with_mini_Board(dx = _dx, dy = _dy):
             return False
         return True
 
@@ -100,13 +107,13 @@ class Board:
 #블럭 회전 시도
     def try_rotate_piece(self, clockwise=True):
         self.piece.rotate(clockwise)
-        collide = self.collide_with_board(dx=self.piece_x, dy=self.piece_y)
+        collide = self.collide_with_mini_Board(dx=self.piece_x, dy=self.piece_y)
         #충돌하지 않는 다면 패스
         if not collide:
             pass
 
         #왼쪽벽과 충돌하는 경우
-        elif collide == Board.COLLIDE_ERROR['left_wall']:
+        elif collide == mini_Board.COLLIDE_ERROR['left_wall']:
             if self.can_move_piece(dx=1, dy=0):
                 self.move_piece(dx=1, dy=0)
             elif self.can_move_piece(dx=2, dy=0):
@@ -115,7 +122,7 @@ class Board:
                 self.piece.rotate(not clockwise)
 
         #오른쪽 벽과 충돌하는 경우
-        elif collide == Board.COLLIDE_ERROR['right_wall']:
+        elif collide == mini_Board.COLLIDE_ERROR['right_wall']:
             if self.can_move_piece(dx=-1, dy=0):
                 self.move_piece(dx=-1, dy=0)
             elif self.can_move_piece(dx=-2, dy=0):
@@ -158,11 +165,11 @@ class Board:
 
     def delete_line(self, y):
         for y in reversed(range(1, y+1)):
-            self.board[y] = list(self.board[y-1])
+            self.mini_Board[y] = list(self.mini_Board[y-1])
 
 # 라인 삭제하기
     def delete_lines(self):
-        remove = [y for y, row in enumerate(self.board) if all(row)]
+        remove = [y for y, row in enumerate(self.mini_Board) if all(row)]
         for y in remove:
             #라인 제거 할떄 소리
             line_sound = pygame.mixer.Sound("assets/sounds/Line_Clear.wav")
@@ -196,7 +203,7 @@ class Board:
 
 
     def game_over(self):
-        return sum(self.board[0]) > 0 or sum(self.board[1]) > 0
+        return sum(self.mini_Board[0]) > 0 or sum(self.mini_Board[1]) > 0
 
 #블럭 모양 만들어주기 ?
     def draw_blocks(self, array2d, color=WHITE, dx=0, dy=0):
@@ -229,7 +236,7 @@ class Board:
                         x_s, y_s = self.pos_to_pixel(x, y + tmp - 1)
                         pygame.draw.rect(self.screen, self.piece.T_COLOR[7],
                                          (x_s, y_s, self.block_size, self.block_size))
-                        pygame.draw.rect(self.screen, BLACK,
+                        pygame.draw.rect(self.screen, YELLOW,
                                          (x_s, y_s, self.block_size, self.block_size), 1)
 
     #다음 블럭 모양 만들어 주기 ?
@@ -246,10 +253,8 @@ class Board:
 
 #보드 내 필요한 내용 들 넣어주기
     def draw(self):
-        global sec
-        sec = round(time.time() - self.start)
-        r_time = datetime.datetime.fromtimestamp(sec).strftime("%M:%S")
-
+        now = datetime.datetime.now()
+        nowTime = now.strftime('%H:%M:%S')
         self.screen.fill(BLACK)
         for x in range(self.width):
             for y in range(self.height):
@@ -263,7 +268,7 @@ class Board:
 
         self.draw_blocks(self.piece, dx=self.piece_x, dy=self.piece_y)
 
-        self.draw_blocks(self.board)
+        self.draw_blocks(self.mini_Board)
         pygame.draw.rect(self.screen, WHITE, Rect(250, 0, 350, 450))
         self.draw_next_piece(self.next_piece)
         next_text = pygame.font.Font('assets/Roboto-Bold.ttf', 18).render('NEXT', True, BLACK)
@@ -275,7 +280,7 @@ class Board:
         level_value = pygame.font.Font('assets/Roboto-Bold.ttf', 16).render(str(self.level), True, BLACK)
         goal_text = pygame.font.Font('assets/Roboto-Bold.ttf', 18).render('GOAL', True, BLACK)
         goal_value = pygame.font.Font('assets/Roboto-Bold.ttf', 16).render(str(self.goal), True, BLACK)
-        time_text = pygame.font.Font('assets/Roboto-Bold.ttf', 14).render(str(r_time), True, BLACK)
+        time_text = pygame.font.Font('assets/Roboto-Bold.ttf', 14).render(str(nowTime), True, BLACK)
         self.screen.blit(next_text, (255, 20))
         self.screen.blit(skill_text, (255, 120))
         self.screen.blit(skill_value, (255, 145))
@@ -290,11 +295,11 @@ class Board:
 #게임 일시정지
     def pause(self):
         fontObj = pygame.font.Font('assets/Roboto-Bold.ttf', 32) #글씨 폰트 설정
-        textSurfaceObj = fontObj.render('Paused', True, RED)  #위 폰트로 초록색 글씨
+        textSurfaceObj = fontObj.render('Paused', True, GREEN)  #위 폰트로 초록색 글씨
         textRectObj = textSurfaceObj.get_rect()
         textRectObj.center = (175, 185)
         fontObj2 = pygame.font.Font('assets/Roboto-Bold.ttf', 16)
-        textSurfaceObj2 = fontObj2.render('Press p to continue', True, RED)
+        textSurfaceObj2 = fontObj2.render('Press p to continue', True, GREEN)
         textRectObj2 = textSurfaceObj2.get_rect()
         textRectObj2.center = (175, 235)
 
@@ -313,11 +318,11 @@ class Board:
 #게임 오버 배경
     def GameOver(self):
         fontObj = pygame.font.Font('assets/Roboto-Bold.ttf', 32)
-        textSurfaceObj = fontObj.render('Game over', True, RED)
+        textSurfaceObj = fontObj.render('Game over', True, GREEN)
         textRectObj = textSurfaceObj.get_rect()
         textRectObj.center = (175, 185)
         fontObj2 = pygame.font.Font('assets/Roboto-Bold.ttf', 16)
-        textSurfaceObj2 = fontObj2.render('Press a key to continue', True, RED)
+        textSurfaceObj2 = fontObj2.render('Press a key to continue', True, GREEN)
         textRectObj2 = textSurfaceObj2.get_rect()
         textRectObj2.center = (175, 235)
         self.screen.blit(textSurfaceObj, textRectObj)
@@ -335,11 +340,11 @@ class Board:
 #새로운 게임 시작하기 배경
     def newGame(self):
         fontObj = pygame.font.Font('assets/Roboto-Bold.ttf', 32)
-        textSurfaceObj = fontObj.render('Tetris', True, RED)
+        textSurfaceObj = fontObj.render('Tetris', True, GREEN)
         textRectObj = textSurfaceObj.get_rect()
         textRectObj.center = (175, 185)
         fontObj2 = pygame.font.Font('assets/Roboto-Bold.ttf', 16)
-        textSurfaceObj2 = fontObj2.render('Press a key to continue', True, RED)
+        textSurfaceObj2 = fontObj2.render('Press a key to continue', True, GREEN)
         textRectObj2 = textSurfaceObj2.get_rect()
         textRectObj2.center = (175, 235)
         self.screen.fill(BLACK)
@@ -359,17 +364,16 @@ class Board:
     def HS(self, txt="no"):
         if txt != "no":
             fontObj = pygame.font.Font('assets/Roboto-Bold.ttf', 32)
-            textSurfaceObj = fontObj.render('HighScore : '+txt, True, RED)
+            textSurfaceObj = fontObj.render('HighScore : '+txt, True, GREEN)
             textRectObj = textSurfaceObj.get_rect()
             textRectObj.center = (175, 185)
             fontObj2 = pygame.font.Font('assets/Roboto-Bold.ttf', 16)
-            textSurfaceObj2 = fontObj2.render('Press a key to continue', True, RED)
+            textSurfaceObj2 = fontObj2.render('Press a key to continue', True, GREEN)
             textRectObj2 = textSurfaceObj2.get_rect()
             textRectObj2.center = (175, 235)
             self.screen.fill(BLACK)
             self.screen.blit(textSurfaceObj, textRectObj)
             self.screen.blit(textSurfaceObj2, textRectObj2)
-            
             pygame.display.update()
             running = True
             while running:
@@ -390,7 +394,7 @@ class Board:
             pygame.display.update()
             bomb_sound.play()
             time.sleep(1)
-            self.board = []
+            self.mini_Board = []
             self.skill = 0
             for _ in range(self.height):
-                self.board.append([0]*self.width)
+                self.mini_Board.append([0]*self.width)
