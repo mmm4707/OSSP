@@ -94,7 +94,7 @@ class Tetris:
                 self.check_reset = False
 #                pygame.mixer.music.play(-1, 0.0)
             if self.board.game_over():
-                self.screen.fill(BLACK)
+                self.screen.fill(WHITE)
 #                pygame.mixer.music.stop()
                 self.board.GameOver()
                 self.HighScore()
@@ -105,7 +105,7 @@ class Tetris:
                     pygame.quit()
                     sys.exit()
                 elif event.type == KEYUP and event.key == K_p:
-                    self.screen.fill(BLACK)
+                    self.screen.fill(WHITE)
                     pygame.mixer.music.stop()
                     self.board.pause()
                     pygame.mixer.music.play(-1, 0.0)
@@ -146,7 +146,7 @@ class Tetris:
                 self.check_reset = False
 #                pygame.mixer.music.play(-1, 0.0)
             if self.mini_board.game_over():
-                self.screen.fill(BLACK)
+                self.screen.fill(WHITE)
 #                pygame.mixer.music.stop()
                 self.mini_board.GameOver()
                 self.HighScore()
@@ -157,7 +157,7 @@ class Tetris:
                     pygame.quit()
                     sys.exit()
                 elif event.type == KEYUP and event.key == K_p:
-                    self.screen.fill(BLACK)
+                    self.screen.fill(WHITE)
                     pygame.mixer.music.stop()
                     self.mini_board.pause()
                     pygame.mixer.music.play(-1, 0.0)

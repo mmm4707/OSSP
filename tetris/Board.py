@@ -212,7 +212,7 @@ class Board:
                         x_s, y_s = self.pos_to_pixel(x, y+tmp-1)
                         pygame.draw.rect(self.screen, self.piece.T_COLOR[block-1],
                                         (x_pix, y_pix, self.block_size, self.block_size))
-                        pygame.draw.rect(self.screen, BLACK,
+                        pygame.draw.rect(self.screen, WHITE,
                                         (x_pix, y_pix, self.block_size, self.block_size), 1)
 
     def draw_shadow(self, array2d, dx, dy):  # 그림자 오류 디버깅     #########
@@ -287,11 +287,11 @@ class Board:
 #게임 일시정지
     def pause(self):
         fontObj = pygame.font.Font('assets/Roboto-Bold.ttf', 32) #글씨 폰트 설정
-        textSurfaceObj = fontObj.render('Paused', True, GREEN)  #위 폰트로 초록색 글씨
+        textSurfaceObj = fontObj.render('Paused', True, RED)  #위 폰트로 초록색 글씨
         textRectObj = textSurfaceObj.get_rect()
         textRectObj.center = (175, 185)
         fontObj2 = pygame.font.Font('assets/Roboto-Bold.ttf', 16)
-        textSurfaceObj2 = fontObj2.render('Press p to continue', True, GREEN)
+        textSurfaceObj2 = fontObj2.render('Press p to continue', True, RED)
         textRectObj2 = textSurfaceObj2.get_rect()
         textRectObj2.center = (175, 235)
 
@@ -310,11 +310,11 @@ class Board:
 #게임 오버 배경
     def GameOver(self):
         fontObj = pygame.font.Font('assets/Roboto-Bold.ttf', 32)
-        textSurfaceObj = fontObj.render('Game over', True, GREEN)
+        textSurfaceObj = fontObj.render('Game over', True, RED)
         textRectObj = textSurfaceObj.get_rect()
         textRectObj.center = (175, 185)
         fontObj2 = pygame.font.Font('assets/Roboto-Bold.ttf', 16)
-        textSurfaceObj2 = fontObj2.render('Press a key to continue', True, GREEN)
+        textSurfaceObj2 = fontObj2.render('Press a key to continue', True, RED)
         textRectObj2 = textSurfaceObj2.get_rect()
         textRectObj2.center = (175, 235)
         self.screen.blit(textSurfaceObj, textRectObj)
@@ -332,11 +332,11 @@ class Board:
 #새로운 게임 시작하기 배경
     def newGame(self):
         fontObj = pygame.font.Font('assets/Roboto-Bold.ttf', 32)
-        textSurfaceObj = fontObj.render('Tetris', True, GREEN)
+        textSurfaceObj = fontObj.render('Tetris', True, RED)
         textRectObj = textSurfaceObj.get_rect()
         textRectObj.center = (175, 185)
         fontObj2 = pygame.font.Font('assets/Roboto-Bold.ttf', 16)
-        textSurfaceObj2 = fontObj2.render('Press a key to continue', True, GREEN)
+        textSurfaceObj2 = fontObj2.render('Press a key to continue', True, RED)
         textRectObj2 = textSurfaceObj2.get_rect()
         textRectObj2.center = (175, 235)
         self.screen.fill(BLACK)
@@ -356,11 +356,11 @@ class Board:
     def HS(self, txt="no"):
         if txt != "no":
             fontObj = pygame.font.Font('assets/Roboto-Bold.ttf', 32)
-            textSurfaceObj = fontObj.render('HighScore : '+txt, True, GREEN)
+            textSurfaceObj = fontObj.render('HighScore : '+txt, True, RED)
             textRectObj = textSurfaceObj.get_rect()
             textRectObj.center = (175, 185)
             fontObj2 = pygame.font.Font('assets/Roboto-Bold.ttf', 16)
-            textSurfaceObj2 = fontObj2.render('Press a key to continue', True, GREEN)
+            textSurfaceObj2 = fontObj2.render('Press a key to continue', True, RED)
             textRectObj2 = textSurfaceObj2.get_rect()
             textRectObj2.center = (175, 235)
             self.screen.fill(BLACK)

@@ -220,7 +220,7 @@ class mini_Board:
                         x_s, y_s = self.pos_to_pixel(x, y+tmp-1)
                         pygame.draw.rect(self.screen, self.piece.T_COLOR[block-1],
                                         (x_pix, y_pix, self.block_size, self.block_size))
-                        pygame.draw.rect(self.screen, BLACK,
+                        pygame.draw.rect(self.screen, WHITE,
                                         (x_pix, y_pix, self.block_size, self.block_size), 1)
 
     def draw_shadow(self, array2d, dx, dy):  # 그림자 오류 디버깅     #########
@@ -236,7 +236,7 @@ class mini_Board:
                         x_s, y_s = self.pos_to_pixel(x, y + tmp - 1)
                         pygame.draw.rect(self.screen, self.piece.T_COLOR[7],
                                          (x_s, y_s, self.block_size, self.block_size))
-                        pygame.draw.rect(self.screen, BLACK,
+                        pygame.draw.rect(self.screen, YELLOW,
                                          (x_s, y_s, self.block_size, self.block_size), 1)
 
     #다음 블럭 모양 만들어 주기 ?
