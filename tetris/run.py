@@ -63,7 +63,7 @@ def start():
 
 
 def minigame():
-    Tetris().run()
+    Tetris().mini_run()
 
 
 
