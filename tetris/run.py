@@ -56,7 +56,7 @@ def mainmenu():
 
         gameDisplay.fill(white)
         
-        titletext = gameDisplay.blit(TetImg, (110,5))
+        titletext = gameDisplay.blit(TetImg, (110,0))
         startButton = Button(startImg,120,100,96,96,clickStartImg,120,100,startmenu)
         controlButton = Button(keyImg,120,200,96,96,clickkeyImg,120,200,controlkey)
         quitButton = Button(quitImg,120,350,96,96,clickQuitImg,120,350,quitgame)

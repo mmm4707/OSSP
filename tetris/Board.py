@@ -24,6 +24,7 @@ class Board:
 
     def __init__(self, screen):
         self.screen = screen
+
         self.start = time.time()
         self.width = 10  #맵의 좌에서 우로 사이즈
         self.height = 20 #맵 위에서 아래로 사이즈

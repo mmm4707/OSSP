@@ -1,11 +1,8 @@
-# OSD_game  
-
+# 오픈소스 SW 프로젝트
+    KIM SEOHYUN
 [![License](https://img.shields.io/badge/license-GPLv3-green.svg)](http://www.gnu.org/licenses/gpl-3.0.html)
 ![Laguage](https://img.shields.io/badge/python-3.11.1-blue.svg)
 ![Laguage](https://img.shields.io/badge/pygame-1.9.3-blue.svg)    
-
-### [ScreenShots](https://github.com/alchon/OSD_game/tree/master/pictures)        
-![Gaming](https://github.com/alchon/OSD_game/blob/master/pictures/tetris.gif?raw=true)  
 
 ## 조작 키  
 - a, ← 블럭을 왼쪽으로 한칸 옮김
