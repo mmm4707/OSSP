@@ -2,11 +2,24 @@
 <p align='center'> 
 
 # 오픈소스 SW 프로젝트
-    TETRIS
 [![License](https://img.shields.io/badge/license-GPLv3-green.svg)](http://www.gnu.org/licenses/gpl-3.0.html)
 ![Laguage](https://img.shields.io/badge/python-3.11.1-blue.svg)
 ![Laguage](https://img.shields.io/badge/pygame-2.1.2-blue.svg)    
-
+    
+# 기능
+    
+    menu ui
+![tetinstall](https://user-images.githubusercontent.com/39482751/214422150-27b1e4db-72c5-449a-a2da-d8f94c296d59.gif)
+    
+     mini mode
+![mini](https://user-images.githubusercontent.com/39482751/214422420-39424ac9-7e7a-4ac5-ab45-e5fa825fb6d0.gif)
+    
+    base
+![old](https://user-images.githubusercontent.com/39482751/214422613-a4a16647-a038-4b49-9a31-05db5f314bc4.gif)
+    
+    new
+![new](https://user-images.githubusercontent.com/39482751/214422653-e2258525-c815-4c25-9ff3-72e1cd74cd86.gif)
+    
 ## 사용한 오픈소스  
 - https://github.com/hbseo/OSD_game
 
